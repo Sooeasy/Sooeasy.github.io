@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="第一章     导论（操作系统的what，why，how）1.0 操作系统的学习目的1、一个操作系统是否可用，主要体现在其效率和功能，效率为软件的高性能提供平台，研究OS的原因之一是如何获得最好的性能，而功能的数量影响程序所做工作的多少，要提升计算机的总体性能，研究OS是一个重要的方向；2、学会更有效的使用系统的功能，以便在编程中能够充分使用；3、发现OS的一些设计缺陷并避开这些缺陷">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统第三版学习笔记1">
+<meta property="og:url" content="http://example.com/2022/06/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%89%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/index.html">
+<meta property="og:site_name" content="终日而思不如须臾所学">
+<meta property="og:description" content="第一章     导论（操作系统的what，why，how）1.0 操作系统的学习目的1、一个操作系统是否可用，主要体现在其效率和功能，效率为软件的高性能提供平台，研究OS的原因之一是如何获得最好的性能，而功能的数量影响程序所做工作的多少，要提升计算机的总体性能，研究OS是一个重要的方向；2、学会更有效的使用系统的功能，以便在编程中能够充分使用；3、发现OS的一些设计缺陷并避开这些缺陷">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-27T03:17:00.000Z">
+<meta property="article:modified_time" content="2022-06-27T03:18:29.758Z">
+<meta property="article:author" content="Chaos">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/06/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%89%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>操作系统第三版学习笔记1 | 终日而思不如须臾所学</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">终日而思不如须臾所学</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%89%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="Chaos">
+      <meta itemprop="description" content="少年去游荡，中年好掘藏，老年做和尚">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="终日而思不如须臾所学">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          操作系统第三版学习笔记1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-27 11:17:00 / 修改时间：11:18:29" itemprop="dateCreated datePublished" datetime="2022-06-27T11:17:00+08:00">2022-06-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第一章-导论（操作系统的what，why，how）"><a href="#第一章-导论（操作系统的what，why，how）" class="headerlink" title="第一章     导论（操作系统的what，why，how）"></a>第一章     导论（操作系统的what，why，how）</h2><h3 id="1-0-操作系统的学习目的"><a href="#1-0-操作系统的学习目的" class="headerlink" title="1.0 操作系统的学习目的"></a>1.0 操作系统的学习目的</h3><p>1、一个操作系统是否可用，主要体现在其效率和功能，效率为软件的高性能提供平台，研究OS的原因之一是如何获得最好的性能，而功能的数量影响程序所做工作的多少，要提升计算机的总体性能，研究OS是一个重要的方向；2、学会更有效的使用系统的功能，以便在编程中能够充分使用；3、发现OS的一些设计缺陷并避开这些缺陷</p>
+<span id="more"></span>
+
+<h3 id="1-1-计算机与软件"><a href="#1-1-计算机与软件" class="headerlink" title="1.1 计算机与软件"></a>1.1 计算机与软件</h3><p>计算机系统由硬件和软件组成，它们相互作用能够解决一系列问题。而软件还可以根据应用目的的不同分为应用软件和系统软件，应用软件是设计用于解决一个专门问题的，系统软件提供一个一般的编程环境（程序设计工具（编译器和编辑器）+抽象（文件和对象））以备应用软件调用</p>
+<p>为了提高应用程序的性能，使得机器资源更多的花费在应用程序上，相对的就要使系统软件占有相对更少的机器资源占有量，即减少能够对机器资源进行分配的系统软件，但是这样应用软件就要提供原来的系统软件所要实现的功能，不同的应用软件需要提供不同的系统软件功能，这样看起来极大程度的影响计算机的效率，为了解决这个问题，系统软件（特别是OS）实现了软件有序共享硬件资源的功能，它让不同的程序同时去使用计算机的不同部件，减少所有程序执行时间，提高系统的整体性能</p>
+<p>这样来看，OS是系统软件中最贴近硬件的软件实现，又或者说是计算机系统中硬件的一个抽象，使得其他的系统软件和所有应用软件把操作系统作为使用硬件的一个界面</p>
+<h4 id="1-1-1-通常的系统软件"><a href="#1-1-1-通常的系统软件" class="headerlink" title="1.1.1 通常的系统软件"></a>1.1.1 通常的系统软件</h4><p>上面我们说过，系统软件为上层应用软件提供环运行环境，此环境有两种，一是允许用户和计算机进行交互，二是为应用程序提供可以使用的工具和插件；例：系统软件提供API（应用编程接口）来编写程序</p>
+<p>例子：库系统软件，命令行解释程序（Shell），窗口系统，数据库管理系统</p>
+<p>而OS作为一种特殊的系统软件，对比于其他系统软件，有以下的区别：1、操作系统直接作用于硬件之上，为其他系统软件和应用软件提供API；2、通用的OS与应用领域无关，这意味OS可支持很多应用领域软件；3、应用程序使用OS所提供的资源抽象来间接使用硬件资源；4、OS允许不同的应用程序通过它所提供的资源管理策略来共享硬件资源</p>
+<h4 id="1-1-2-资源抽象"><a href="#1-1-2-资源抽象" class="headerlink" title="1.1.2 资源抽象"></a>1.1.2 资源抽象</h4><p>系统软件有一种特性，对下层复杂的硬件操作细节进行简化，使其变的更容易使用，这就是抽象，抽象使用户在不了解硬件知识的前提下仍然能使用计算机进行工作，使得计算机的使用更加简单快捷</p>
+<p>但是抽象在简化控制硬件方式的同时，也限制了操纵特定硬件的灵活性。通用性具有代价，当操作变得容易实现时，其他的操作就无法使用这种抽象来完成，即当一种方式已经被抽象完成时，我们只能通过利用这种操作来满足我们的需求，这显然不够灵活，也并不能总是能够满足我们的需求</p>
+<p>计算机系统中任意一种特定的资源都会有一个通用的接口，其定义了如何使用该资源来完成需要的操作；抽象是在系统软件中实现的，使用抽象无需了解其物理接口的实现，也就比物理接口更加简单，能够节省时间去完成其他问题</p>
+<h4 id="1-1-3-资源共享"><a href="#1-1-3-资源共享" class="headerlink" title="1.1.3 资源共享"></a>1.1.3 资源共享</h4><p>在计算机系统中，各个程序的运行方式在是否同时占有公共资源的方向上可分为并发执行（concurrent execution）和并行执行（parallel execution），由于运行速度之快，并发看似同时发生，但在OS的研究中，模糊了真正同时执行和看起来同时进行，这两种都叫做并发执行，但前者其实是并行执行</p>
+<p>并发和并行都与资源共享的概念相关，他们都共享计算机资源，OS在抽象机器间通过透明共享方式来管理资源，即用户和应用程序员并不会意识到资源被共享，OS也提供了一部分机制使得运行的程序可以显示共享资源</p>
+<h4 id="1-1-4-虚拟机和透明资源共享"><a href="#1-1-4-虚拟机和透明资源共享" class="headerlink" title="1.1.4 虚拟机和透明资源共享"></a>1.1.4 虚拟机和透明资源共享</h4><p>虚拟机：机器的抽象，并发看似就是每个程序都在各自的虚拟机上按照某种规则运行，OS通过共享硬件的方式来实现这层抽象</p>
+<p>进程初识：在一台虚拟机上运行的程序</p>
+<p>既然OS可以通过共享方式实现虚拟机，其方式现有分为两种：1.空分复用共享，2.时分复用共享</p>
+<p>空分复用共享（space-multiplexed sharing）表示资源可以进一步分割成两个或更多个不同的单元部分来给进程使用；比如一栋楼会被分为各个房间供用户使用，计算机某些资源也能分成不同功能的块供进程使用</p>
+<p>时分复用共享（time-multiplexed sharing）是将时间分割为小的时间片，在时间片范围内，一个进程单独占用资源</p>
+<p>OS通过同时使用空分和时分技术来管理计算机资源的调度和分配，此设计方式称为多道程序设计（multiprogramming），在提升单个进程的性能方向并没有作用，但通过合理的分配方式下，能大幅度提高整个计算机系统的性能</p>
+<h4 id="1-1-5-显示资源共享"><a href="#1-1-5-显示资源共享" class="headerlink" title="1.1.5 显示资源共享"></a>1.1.5 显示资源共享</h4><p>上面提到OS提供一部分机制可显示共享资源，显示资源共享机制使得进程可以通过它们自己的协调策略来使用普通资源（其与OS的协调策略相反）；显示资源共享需要满足：1.系统必须根据某种分配策略隔离资源的访问；2.系统必须在有资源请求时，能允许进程相互合作共享资源</p>
+<p>资源隔离是OS的责任，当资源分配给一个虚拟机使用时，OS要阻止其他虚拟机的未授权访问，资源隔离保证了各个虚拟机的正确操作，但资源隔离也引进了新的问题,恶意进程可能通过试图共享已分配给其他进程的资源，如果成功访问，就会可能破坏另一进程存储的信息</p>
+<p>资源隔离要求系统软件必须具备这种功能，但有可能会出现系统软件并没有按照期待方式去隔离资源，这样就失去了用处；为解决此问题，将OS构建为可信软件，即它们能够按照策略执行使得整个系统正确运行</p>
+<h3 id="1-2-操作系统的策略"><a href="#1-2-操作系统的策略" class="headerlink" title="1.2 操作系统的策略"></a>1.2 操作系统的策略</h3><p>何为策略？   —策略是指程序员看到的虚拟机的一般特征（我感觉是用法）</p>
+<h4 id="1-2-1-批处理系统"><a href="#1-2-1-批处理系统" class="headerlink" title="1.2.1 批处理系统"></a>1.2.1 批处理系统</h4><p>一个批处理系统依次服务队列中的各个作业，其由预定义的命令（例如拷贝文件或打印文件命令）集合所说明（即作业控制说明），该系统执行时无需用户与程序进行交互；在1960时期，批作业是一组穿孔卡输入到机器中，今天，批处理的执行说明，是以文件的形式来表示一个作业的执行轨迹</p>
+<h4 id="1-2-2-用户观点"><a href="#1-2-2-用户观点" class="headerlink" title="1.2.2 用户观点"></a>1.2.2 用户观点</h4><p>现代的OS不使用纯粹的批处理系统策略，批处理对于非交互式作业仍有很大的效能，现在的做法是在文件中定义一个复杂的操作系统命令集，输入到系统中，通过系统的批处理功能，执行指令集的代码</p>
+<h4 id="1-2-3-批处理技术"><a href="#1-2-3-批处理技术" class="headerlink" title="1.2.3 批处理技术"></a>1.2.3 批处理技术</h4>
+    </div>
+
+    
+    
+    
+
+ 
+
+      <footer class="post-footer">
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%AF%BC%E8%AE%BA%EF%BC%88%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84what%EF%BC%8Cwhy%EF%BC%8Chow%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">第一章     导论（操作系统的what，why，how）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-0-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%9B%AE%E7%9A%84"><span class="nav-number">1.1.</span> <span class="nav-text">1.0 操作系统的学习目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8E%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">1.1 计算机与软件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-%E9%80%9A%E5%B8%B8%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.1.1 通常的系统软件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-%E8%B5%84%E6%BA%90%E6%8A%BD%E8%B1%A1"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.1.2 资源抽象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB"><span class="nav-number">1.2.3.</span> <span class="nav-text">1.1.3 资源共享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8C%E9%80%8F%E6%98%8E%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB"><span class="nav-number">1.2.4.</span> <span class="nav-text">1.1.4 虚拟机和透明资源共享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-5-%E6%98%BE%E7%A4%BA%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB"><span class="nav-number">1.2.5.</span> <span class="nav-text">1.1.5 显示资源共享</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%AD%96%E7%95%A5"><span class="nav-number">1.3.</span> <span class="nav-text">1.2 操作系统的策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.2.1 批处理系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-%E7%94%A8%E6%88%B7%E8%A7%82%E7%82%B9"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.2.2 用户观点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-%E6%89%B9%E5%A4%84%E7%90%86%E6%8A%80%E6%9C%AF"><span class="nav-number">1.3.3.</span> <span class="nav-text">1.2.3 批处理技术</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chaos"
+      src="/images/1.jpg">
+  <p class="site-author-name" itemprop="name">Chaos</p>
+  <div class="site-description" itemprop="description">少年去游荡，中年好掘藏，老年做和尚</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Sooeasy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Sooeasy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chaos</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
